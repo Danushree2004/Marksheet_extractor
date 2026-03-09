@@ -1,0 +1,78 @@
+name: marksheet_extractor
+description: A Flutter app for extracting academic information from marksheet images using OCR and AI.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP and API
+  http: ^1.1.0
+  dio: ^5.3.0
+
+  # Image handling
+  image_picker: ^1.0.0
+  file_picker: ^8.0.0
+  cached_network_image: ^3.3.0
+
+  # State management
+  provider: ^6.0.0
+
+  # UUID generation
+  uuid: ^4.0.0
+
+  # Sharing and external storage
+  share_plus: ^10.1.4
+
+  # UI/UX
+  cupertino_icons: ^1.0.2
+  flutter_staggered_grid_view: ^0.7.0
+  lottie: ^2.4.0
+  
+  # JSON serialization
+  json_annotation: ^4.8.1
+
+  # Local storage
+  shared_preferences: ^2.2.0
+  sqflite: ^2.3.0
+  path_provider: ^2.1.0
+
+  # PDF export
+  pdf: ^3.10.0
+  printing: ^5.11.0
+
+  # Excel export
+  excel: ^2.1.0
+
+  # Date & time
+  intl: ^0.19.0
+
+  # Loading indicators
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.0
+  json_serializable: ^6.7.0
+
+flutter:
+  uses-material-design: true
+
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+
+  # fonts:
+  #   - family: Roboto
+  #     fonts:
+  #       - asset: assets/fonts/Roboto-Regular.ttf
+  #       - asset: assets/fonts/Roboto-Bold.ttf
+  #         weight: 700

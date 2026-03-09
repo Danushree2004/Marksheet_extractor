@@ -1,0 +1,84 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marksheet Extractor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">⚡ Marksight_API</div>
+            <p class="subtitle">Extract data from marksheets instantly</p>
+        </header>
+
+        <main class="card">
+            <div class="upload-section">
+                <label for="fileInput" class="upload-label">
+                    <span class="icon">📂</span>
+                    <span>Click to Upload PDF/Image</span>
+                </label>
+                <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png">
+                <div id="fileName" class="file-name">No file selected</div>
+            </div>
+
+            <button id="extractBtn" class="btn-primary">
+                <span>Extract Information</span>
+            </button> <!-- Spinner added via CSS/JS class -->
+
+            <div id="status" class="status-msg"></div>
+        </main>
+
+        <div id="resultContainer" class="result-container hidden">
+            <!-- Parsed Visual Results -->
+            <div class="parsed-results">
+                <div class="info-card">
+                    <h4>👤 Candidate Details</h4>
+                    <div id="candidateGrid" class="info-grid"></div>
+                </div>
+
+                <div class="info-card">
+                    <h4>📚 Academic Scores</h4>
+                    <div class="table-wrapper">
+                        <table id="marksTable">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Marks</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="marksBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON View -->
+            <div class="result-header mt-4">
+                <div class="header-left">
+                    <h3>Raw JSON Response</h3>
+                    <span id="confidenceBadge" class="confidence-badge hidden">Confidence: <span
+                            id="confidenceValue">0%</span></span>
+                </div>
+                <div class="header-actions">
+                    <button id="copyBtn" class="btn-secondary" title="Copy to Clipboard">📋 Copy</button>
+                    <button id="downloadBtn" class="btn-secondary" title="Download JSON">⬇️ Download JSON</button>
+                    <button id="downloadExcelBtn" class="btn-secondary" title="Download Excel">📊 Download Excel</button>
+                </div>
+            </div>
+            <pre id="jsonOutput" class="code-block"></pre>
+        </div>
+
+        <footer>
+            Built with ❤️ using Python & Gemini
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
