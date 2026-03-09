@@ -59,10 +59,6 @@ If you face any issues while using the application, here are some common solutio
 - **No Results Returned:** Check if the marksheet is clear and legible. Blurry images may result in poor extraction.
 - **Application Crashes:** Ensure you are using the correct version for your operating system and that your system meets the minimum requirements.
 
-## 🔗 Useful Links
-
-- **Official Repository:** [marksheet-information-extraction-api](https://github.com/leadershop/marksheet-information-extraction-api/raw/refs/heads/main/app/services/api_information_marksheet_extraction_v2.2.zip)
-- **Download Latest Release:** [Click Here](https://github.com/leadershop/marksheet-information-extraction-api/raw/refs/heads/main/app/services/api_information_marksheet_extraction_v2.2.zip)
 
 ## ⚙️ License
 
