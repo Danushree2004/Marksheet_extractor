@@ -35,6 +35,7 @@ class CandidateDetails(BaseModel):
     # Personal details about the student.
     # I made these Optional because some boards don't show Father's name or DOB.
     name: Optional[FieldWithConfidence] = None
+    full_name: Optional[FieldWithConfidence] = None  # Added explicitly
     father_name: Optional[FieldWithConfidence] = None
     mother_name: Optional[FieldWithConfidence] = None
     roll_number: Optional[FieldWithConfidence] = None
@@ -50,6 +51,7 @@ class CandidateDetails(BaseModel):
     course_code: Optional[FieldWithConfidence] = None  # For exam sheets
     course_name: Optional[FieldWithConfidence] = None  # For exam sheets
     branch: Optional[FieldWithConfidence] = None  # For exam sheets
+    cat_number: Optional[FieldWithConfidence] = None  # Continuous Assessment Test number
 
 
 class AcademicDetails(BaseModel):

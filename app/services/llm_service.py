@@ -57,17 +57,26 @@ Extract ALL educational information from the image and OCR text below.
    - "Grand Total": Look for the value next to "Grand Total" (e.g., "50")
    - Check the circled number (e.g., "50") as it usually represents the confirmed Grand Total
 
-4. STUDENT NAME: Extract the student's full name (e.g., "V.S.Danushree")
+4. STUDENT NAME: 
+   - Extract the student's full name (e.g., "V.S.Danushree")
+   - Populate BOTH "name" and "full_name" fields with the same extracted value.
 
 5. REGISTER NUMBER: Extract accurately (e.g., "25MCR019")
 
 6. INSTITUTION: Extract college/university/school name
+
+7. COURSE DETAILS:
+   - Extract "Course Code" (e.g., "22MCA11")
+   - Extract "Course Name" (e.g., "Python Programming")
+   - Extract "CAT Number" (e.g., "CAT-I", "CAT-II", "CAT-III", "Continuous Assessment Test 1")
+   - Extract "Exam Date" (e.g., "24-05-2023", "24/05/23") - This is the Date of Examination usually labeled as "Date" in the header.
 
 ===== OCR TEXT TO ANALYZE =====
 {messy_text}
 
 ===== EXTRACTION STRATEGY =====
 - For ROLL NUMBER: Extract even if unclear or spaced - remove spaces and combine. Set confidence to 0.9-1.0 for clear numbers.
+  - For EXAM DATE: Search specifically for "Date" in the header section. It is often simply labeled as "Date" followed by a colon or space and a date in DD-MM-YYYY or DD/MM/YY format. This is the "Date of Examination".
 - For MARKS: Extract EVERY question Q1-Q10 (Part A) and Q11-Q16 (Part B) found - MUST return ALL 16 positions.
   - If a question is not visible/found in the marksheet, put "-" for that question's obtained_marks.
   - For Part B, sum sub-parts (i, ii) if applicable to get the question total.
@@ -83,8 +92,13 @@ Extract ALL educational information from the image and OCR text below.
 {{
   "candidate_details": {{
     "name": {{"value": "EXTRACT STUDENT NAME", "confidence": 0.9}},
+    "full_name": {{"value": "SAME AS NAME", "confidence": 0.9}},
     "roll_number": {{"value": "EXTRACT REGISTER NO", "confidence": 0.7}},
     "register_number": {{"value": "EXTRACT REGISTER NO", "confidence": 0.7}},
+    "course_code": {{"value": "EXTRACT COURSE CODE", "confidence": 0.0}},
+    "course_name": {{"value": "EXTRACT COURSE NAME", "confidence": 0.0}},
+    "cat_number": {{"value": "EXTRACT CAT NUMBER", "confidence": 0.0}},
+    "exam_date": {{"value": "EXTRACT EXAM DATE", "confidence": 0.0}},
     "programme": {{"value": "e.g. MCA", "confidence": 0.0}},
     "branch_semester": {{"value": "e.g. Computer Applications & I", "confidence": 0.0}},
     "institution": {{"value": "EXTRACT COLLEGE NAME", "confidence": 0.9}}
@@ -215,14 +229,59 @@ def structure_data_with_llm(ocr_output: str,
         elif "```" in text_result:
             text_result = text_result.split("```")[1].split("```")[0].strip()
             
-        final_data = json.loads(text_result)
+        try:
+            final_data = json.loads(text_result)
+        except json.JSONDecodeError:
+            print("[AI ERROR] Gemini didn't return valid JSON.")
+            raise Exception("Failed to parse AI response into JSON.")
+            
+        # --- AUTO-CALCULATION VALIDATION (NEW FEATURE) ---
+        # We calculate what the totals SHOULD be and compare them with what is written.
+        # This helps teachers catch arithmetic errors or OCR mistakes.
+        try:
+            def safe_to_float(val):
+                if val is None or val == "-" or str(val).strip() == "": return 0.0
+                try: return float(val)
+                except: return 0.0
+
+            # 1. Validate Part A
+            q_marks_a = [safe_to_float(q.get('obtained_marks', {}).get('value')) 
+                        for q in final_data.get('exam_marks', {}).get('part_a', {}).get('questions', [])]
+            calc_total_a = sum(q_marks_a)
+            extracted_total_a = safe_to_float(final_data.get('exam_marks', {}).get('part_a', {}).get('obtained_marks', {}).get('value'))
+            
+            # 2. Validate Part B
+            q_marks_b = [safe_to_float(q.get('obtained_marks', {}).get('value')) 
+                        for q in final_data.get('exam_marks', {}).get('part_b', {}).get('questions', [])]
+            calc_total_b = sum(q_marks_b)
+            extracted_total_b = safe_to_float(final_data.get('exam_marks', {}).get('part_b', {}).get('obtained_marks', {}).get('value'))
+            
+            # 3. Final Grand Total
+            calc_grand = calc_total_a + calc_total_b
+            extracted_grand = safe_to_float(final_data.get('exam_totals', {}).get('grand_total', {}).get('value'))
+
+            # Attach validation metadata for the frontend to display
+            final_data["validation"] = {
+                "part_a": {
+                    "calculated": calc_total_a,
+                    "extracted": extracted_total_a,
+                    "is_valid": abs(calc_total_a - extracted_total_a) < 0.01
+                },
+                "part_b": {
+                    "calculated": calc_total_b,
+                    "extracted": extracted_total_b,
+                    "is_valid": abs(calc_total_b - extracted_total_b) < 0.01
+                },
+                "grand_total": {
+                    "calculated": calc_grand,
+                    "extracted": extracted_grand,
+                    "is_valid": abs(calc_grand - extracted_grand) < 0.01
+                }
+            }
+        except Exception as val_err:
+            print(f"[DEBUG] Validation failed: {val_err}")
         
         print("[AI] Data extracted successfully from image context.")
-        print(f"[DEBUG] Extracted keys: {final_data.keys()}")
-        if "exam_marks" in final_data:
-            print(f"[DEBUG] exam_marks found with keys: {final_data.get('exam_marks', {}).keys()}")
-        else:
-            print("[DEBUG] exam_marks NOT found in response!")
         
         return final_data
         

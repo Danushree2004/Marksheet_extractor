@@ -29,8 +29,11 @@ def export_multiple_to_excel(extractions_list: List[Dict[str, Any]]) -> BytesIO:
         headers = [
             "#",
             "Roll No",
-            "Name",
+            "Full Name",  # Renamed from Name
             "Batch",
+            "Course Code",
+            "Course Name",
+            "CAT Number",
             "Attendance",
             # Part A Questions (Q1-Q10, 2 marks each)
             "Q1 (2)", "Q2 (2)", "Q3 (2)", "Q4 (2)", "Q5 (2)",
@@ -69,15 +72,18 @@ def export_multiple_to_excel(extractions_list: List[Dict[str, Any]]) -> BytesIO:
             'B': 12,   # Roll No
             'C': 15,   # Name
             'D': 12,   # Batch
-            'E': 12,   # Attendance
-            'F': 8, 'G': 8, 'H': 8, 'I': 8, 'J': 8,  # Q1-Q5 (Part A)
-            'K': 8, 'L': 8, 'M': 8, 'N': 8, 'O': 8,  # Q6-Q10 (Part A)
-            'P': 15,   # PART A Total Mark
-            'Q': 10, 'R': 10, 'S': 10, 'T': 10,  # Q11-Q14 (Part B)
-            'U': 15,   # PART B Total Mark
-            'V': 12,   # Total Mark
-            'W': 8,    # %
-            'X': 10    # Status
+            'E': 15,   # Course Code
+            'F': 20,   # Course Name
+            'G': 12,   # CAT Number
+            'H': 12,   # Attendance
+            'I': 8, 'J': 8, 'K': 8, 'L': 8, 'M': 8,  # Q1-Q5 (Part A)
+            'N': 8, 'O': 8, 'P': 8, 'Q': 8, 'R': 8,  # Q6-Q10 (Part A)
+            'S': 15,   # PART A Total Mark
+            'T': 10, 'U': 10, 'V': 10, 'W': 10,  # Q11-Q14 (Part B)
+            'X': 15,   # PART B Total Mark
+            'Y': 12,   # Total Mark
+            'Z': 8,    # %
+            'AA': 10   # Status
         }
         
         from openpyxl.utils import get_column_letter
@@ -125,11 +131,15 @@ def _add_extraction_row(ws, extracted_data: Dict[str, Any], row_idx: int):
                 break
     data_row.append(roll_number)
     
-    # Get Name
+    # Get Full Name
     name = ""
-    name_field = candidate_details.get("name")
-    if name_field:
-        name = get_value(name_field)
+    # Try full_name first, then name
+    for field_name in ["full_name", "name"]:
+        field_data = candidate_details.get(field_name)
+        if field_data:
+            name = get_value(field_data)
+            if name:
+                break
     data_row.append(name)
     
     # Get Batch (using programme or institution as fallback)
@@ -138,6 +148,18 @@ def _add_extraction_row(ws, extracted_data: Dict[str, Any], row_idx: int):
     if batch_field:
         batch = get_value(batch_field)
     data_row.append(batch)
+
+    # Get Course Code
+    course_code = get_value(candidate_details.get("course_code"))
+    data_row.append(course_code)
+
+    # Get Course Name
+    course_name = get_value(candidate_details.get("course_name"))
+    data_row.append(course_name)
+
+    # Get CAT Number
+    cat_number = get_value(candidate_details.get("cat_number"))
+    data_row.append(cat_number)
     
     # Attendance (not extracted, will be empty)
     data_row.append("")

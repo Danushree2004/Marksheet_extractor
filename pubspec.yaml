@@ -66,9 +66,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
+  assets:
+    - assets/Accepted.jpeg
+    - assets/wrong.jpeg
 
   # fonts:
   #   - family: Roboto
