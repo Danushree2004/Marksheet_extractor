@@ -1,4 +1,4 @@
-# 🌟 marksheet-information-extraction-api - Effortlessly Extract Info from Marksheet Images
+# 🌟 marksheetXtractor - Effortlessly Extract Info from Marksheet Images
 
 ## 🚀 Getting Started
 
