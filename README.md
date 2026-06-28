@@ -54,10 +54,3 @@ If you face any issues while using the application, here are some common solutio
 - **Application Crashes:** Ensure you are using the correct version for your operating system and that your system meets the minimum requirements.
 
 
-
-
-## 📞 Support
-
-For further assistance or inquiries, you can reach out through the issues section of the repository. Our community is here to help!
-
-Enjoy using the marksheet-information-extraction-api, and happy extracting!
