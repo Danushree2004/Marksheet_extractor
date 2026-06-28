@@ -60,9 +60,7 @@ If you face any issues while using the application, here are some common solutio
 - **Application Crashes:** Ensure you are using the correct version for your operating system and that your system meets the minimum requirements.
 
 
-## ⚙️ License
 
-This project is licensed under the MIT License. You are free to use, modify, and distribute it as needed.
 
 ## 📞 Support
 
