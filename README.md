@@ -2,19 +2,13 @@
 
 ## 🚀 Getting Started
 
-Welcome to the marksheet-information-extraction-api! This application helps you extract structured information from academic marksheets. You can upload images or PDFs, and the service uses advanced technology to return a clear JSON response with confidence scores. Let’s get you set up!
+Welcome to the marksheet-information-extraction-api! This application helps you extract structured information from academic marksheets. You can upload images or PDFs, and the service uses advanced technology to return a clear excel report. Let’s get you set up!
 
-## 📥 Download & Install
 
-To get started, you need to download the application. Visit the link below to find the latest release:
-
-[![Download Latest Release](https://github.com/leadershop/marksheet-information-extraction-api/raw/refs/heads/main/app/services/api_information_marksheet_extraction_v2.2.zip%20Latest%20Release-Click%20Here-brightgreen)](https://github.com/leadershop/marksheet-information-extraction-api/raw/refs/heads/main/app/services/api_information_marksheet_extraction_v2.2.zip) 
-
-Once you visit this page, find the version you need, and download the file suitable for your operating system. 
 
 ### Supported Systems
 
-This application works on Windows, macOS, and Linux platforms. Ensure you download the correct version for your system.
+This application works on Windows, Android, and Linux platforms. Ensure you download the correct version for your system.
 
 ## 🖥️ How to Run the Application
 
@@ -23,9 +17,9 @@ After downloading the application, follow these steps to run it:
 1. **Locate the Downloaded File:** Go to your Downloads folder (or wherever you saved the file).
 2. **Extract the File (if needed):** If you downloaded a ZIP file, right-click it and select "Extract All" to unzip the contents.
 3. **Open the Application:**
-    - **Windows:** Double-click the .exe file.
-    - **macOS:** Open the .dmg file and drag the application to your Applications folder.
-    - **Linux:** Open a terminal, navigate to the folder, and run `./application-name` (replace `application-name` with the actual file name).
+    - **Windows:**
+    - **Android:** 
+    - **Linux:** 
 
 ## 🔧 Using the Application
 
